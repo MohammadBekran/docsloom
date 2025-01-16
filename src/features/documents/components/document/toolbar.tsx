@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
@@ -12,7 +11,6 @@ import {
 } from "@lexical/rich-text";
 import { $setBlocksType } from "@lexical/selection";
 import { $findMatchingParent, mergeRegister } from "@lexical/utils";
-import { OPEN_FLOATING_COMPOSER_COMMAND } from "@liveblocks/react-lexical";
 import {
   $createParagraphNode,
   $getSelection,
@@ -21,37 +19,17 @@ import {
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_CRITICAL,
-  FORMAT_ELEMENT_COMMAND,
-  FORMAT_TEXT_COMMAND,
-  REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
-  UNDO_COMMAND,
 } from "lexical";
-import {
-  AlignCenterIcon,
-  AlignJustifyIcon,
-  AlignLeftIcon,
-  AlignRightIcon,
-  BoldIcon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  ItalicIcon,
-  type LucideIcon,
-  MessageCircleIcon,
-  Redo2Icon,
-  RemoveFormattingIcon,
-  StrikethroughIcon,
-  SubscriptIcon,
-  SuperscriptIcon,
-  UnderlineIcon,
-  Undo2Icon,
-} from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
 import DeleteDocumentModal from "@/features/documents/components/document/delete-document-modal";
+import { TOOLBAR_BUTTONS } from "@/features/documents/core/constants";
 import { clearFormatting } from "@/features/documents/core/utils";
+
+import { Separator } from "@/components/ui/separator";
 
 interface IToolbarButtonProps {
   icon: LucideIcon;
@@ -135,6 +113,8 @@ const Toolbar = ({ userAccessType }: { userAccessType: string }) => {
   const [editor] = useLexicalComposerContext();
   const activeBlock = useActiveBlock();
 
+  const disabled = userAccessType === "viewer";
+
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
 
@@ -165,6 +145,21 @@ const Toolbar = ({ userAccessType }: { userAccessType: string }) => {
       }
     });
   };
+
+  const TOOLBAR_BUTTONS_TO_MAP = TOOLBAR_BUTTONS(
+    editor,
+    canUndo,
+    canRedo,
+    activeBlock,
+    isBold,
+    isItalic,
+    isUnderline,
+    isStrikethrough,
+    isSubscript,
+    isSuperscript,
+    toggleBlock,
+    () => clearFormatting(editor)
+  );
 
   useEffect(() => {
     return mergeRegister(
@@ -201,116 +196,47 @@ const Toolbar = ({ userAccessType }: { userAccessType: string }) => {
 
   return (
     <ScrollArea>
-      <div className="size-full flex justify-between items-center py-2 px-5">
+      <div className="size-full flex justify-between items-center gap-x-5 py-2 px-5">
         <div className="flex gap-x-2">
-          <ToolbarButton
-            icon={Undo2Icon}
-            disabled={!canUndo}
-            onClick={() => editor.dispatchCommand(UNDO_COMMAND, undefined)}
-          />
-          <ToolbarButton
-            icon={Redo2Icon}
-            disabled={!canRedo}
-            onClick={() => editor.dispatchCommand(REDO_COMMAND, undefined)}
-          />
-          <Separator orientation="vertical" className="h-[33px] bg-dark-500" />
-          <ToolbarButton
-            icon={Heading1Icon}
-            isActive={activeBlock === "h1" && true}
-            onClick={() => toggleBlock("h1")}
-          />
-          <ToolbarButton
-            icon={Heading2Icon}
-            isActive={activeBlock === "h2" && true}
-            onClick={() => toggleBlock("h2")}
-          />
-          <ToolbarButton
-            icon={Heading3Icon}
-            isActive={activeBlock === "h3" && true}
-            onClick={() => toggleBlock("h3")}
-          />
-          <Separator orientation="vertical" className="h-[33px] bg-dark-500" />
-          <ToolbarButton
-            icon={BoldIcon}
-            isActive={isBold}
-            onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
-          />
-          <ToolbarButton
-            icon={ItalicIcon}
-            isActive={isItalic}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")
-            }
-          />
-          <ToolbarButton
-            icon={UnderlineIcon}
-            isActive={isUnderline}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
-            }
-          />
-          <ToolbarButton
-            icon={StrikethroughIcon}
-            isActive={isStrikethrough}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
-            }
-          />
-          <ToolbarButton
-            icon={SubscriptIcon}
-            isActive={isSubscript}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript")
-            }
-          />
-          <ToolbarButton
-            icon={SuperscriptIcon}
-            isActive={isSuperscript}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript")
-            }
-          />
-
-          <ToolbarButton
-            icon={RemoveFormattingIcon}
-            onClick={() => clearFormatting(editor)}
-          />
-          <Separator orientation="vertical" className="h-[33px] bg-dark-500" />
-          <ToolbarButton
-            icon={AlignRightIcon}
-            isActive={false}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")
-            }
-          />
-          <ToolbarButton
-            icon={AlignCenterIcon}
-            isActive={false}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
-            }
-          />
-          <ToolbarButton
-            icon={AlignLeftIcon}
-            isActive={false}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")
-            }
-          />
-          <ToolbarButton
-            icon={AlignJustifyIcon}
-            isActive={false}
-            onClick={() =>
-              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")
-            }
-          />
-          <ToolbarButton
-            icon={MessageCircleIcon}
-            isActive={false}
-            onClick={() =>
-              editor.dispatchCommand(OPEN_FLOATING_COMPOSER_COMMAND, undefined)
-            }
-          />
+          {TOOLBAR_BUTTONS_TO_MAP[0].map((item, index) => (
+            <ToolbarButton
+              key={`${item.icon}-${index}`}
+              disabled={disabled || item.disabled}
+              {...item}
+            />
+          ))}
+          <Separator orientation="vertical" className="toolbar-separator" />
+          {TOOLBAR_BUTTONS_TO_MAP[1].map((item, index) => (
+            <ToolbarButton
+              key={`${item.icon}-${index}`}
+              disabled={disabled || item.disabled}
+              {...item}
+            />
+          ))}
+          <Separator orientation="vertical" className="toolbar-separator" />
+          {TOOLBAR_BUTTONS_TO_MAP[2].map((item, index) => (
+            <ToolbarButton
+              key={`${item.icon}-${index}`}
+              disabled={disabled || item.disabled}
+              {...item}
+            />
+          ))}
+          <Separator orientation="vertical" className="toolbar-separator" />
+          {TOOLBAR_BUTTONS_TO_MAP[3].map((item, index) => (
+            <ToolbarButton
+              key={`${item.icon}-${index}`}
+              disabled={disabled || item.disabled}
+              {...item}
+            />
+          ))}
+          <Separator orientation="vertical" className="toolbar-separator" />
+          {TOOLBAR_BUTTONS_TO_MAP[4].map((item, index) => (
+            <ToolbarButton
+              key={`${item.icon}-${index}`}
+              disabled={disabled || item.disabled}
+              {...item}
+            />
+          ))}
         </div>
         {userAccessType === "editor" && (
           <DeleteDocumentModal documentId={documentId as string} />

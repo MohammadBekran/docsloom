@@ -19,8 +19,6 @@ import FloatingToolbar from "@/features/documents/components/document/floating-t
 import Comments from "@/features/documents/components/document/comments";
 import LEXICAL_THEME from "@/features/documents/core/configs";
 
-import { Separator } from "@/components/ui/separator";
-
 const Editor = ({
   userAccessType,
 }: {
@@ -43,7 +41,6 @@ const Editor = ({
   return (
     <LexicalComposer initialConfig={initialConfig}>
       <Toolbar userAccessType={userAccessType} />
-      <Separator className="bg-dark-300" />
       <div className="flex justify-center mt-10 text-white">
         <div className="w-full flex flex-col justify-between gap-8 px-5 pb-4 xl:w-auto xl:flex-row xl:px-0">
           <RichTextPlugin

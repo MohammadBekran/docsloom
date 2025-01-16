@@ -101,6 +101,9 @@ body {
   .share-select-item {
     @apply cursor-pointer bg-dark-200 text-blue-100 hover:bg-dark-300 focus:bg-dark-300 focus:text-blue-100 !important;
   }
+  .toolbar-separator {
+    @apply h-[33px] bg-dark-500 !important;
+  }
 }
 
 .editor-textStrikethrough {

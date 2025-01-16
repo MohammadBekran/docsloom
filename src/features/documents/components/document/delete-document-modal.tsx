@@ -43,7 +43,7 @@ const DeleteDocumentModal = ({ documentId }: { documentId: string }) => {
       </DialogTrigger>
       <DialogContent className="w-[450px] max-w-[500px] rounded-xl shadow-xl border-0 py-7 px-5 bg-[url('/background-image.png')] bg-cover lg:min-w-[500px]">
         <DialogHeader>
-          <div className="mb-4">
+          <div className="flex justify-center items-center mb-4 lg:block">
             <Image
               src="/delete-modal.svg"
               alt="Delete"

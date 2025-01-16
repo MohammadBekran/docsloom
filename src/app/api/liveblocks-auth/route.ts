@@ -34,6 +34,6 @@ export const POST = async (_request: NextRequest) => {
 
     return new NextResponse(body, { status });
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 };

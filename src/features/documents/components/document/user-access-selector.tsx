@@ -19,7 +19,7 @@ const UserAccessSelector = ({
 }: IUserAccessSelectorProps) => {
   return (
     <Select value={value} disabled={disabled} onValueChange={onValueChange}>
-      <SelectTrigger className="w-fit min-w-[100px] bg-transparent border-none text-blue-100 focus:!ring-0 focus:!ring-offset-0">
+      <SelectTrigger className="w-fit min-w-[100px] border-none outline-none bg-transparent text-blue-100">
         <SelectValue placeholder="can view" />
       </SelectTrigger>
       <SelectContent className="border-none bg-dark-200 text-white">

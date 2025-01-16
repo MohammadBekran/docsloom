@@ -7,7 +7,7 @@ import type { TUser } from "@/features/documents/core/types";
 import {
   removeUserAccess,
   updateUserAccess,
-} from "@/features/home/core/actions";
+} from "@/features/documents/core/actions";
 
 import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/utils";
@@ -34,10 +34,7 @@ const Collaborator = ({
 
   const isDisabled = isUpdatingUserAccessPending || isRemovingUserAccessPending;
 
-  const handleUpdateUserAccess = async (
-    userAccess: string,
-    userEmail: string
-  ) => {
+  const handleUpdateUserAccess = (userAccess: string, userEmail: string) => {
     startIsUpdatingUserAccessTransition(async () => {
       const updatedDocument = await updateUserAccess(
         documentId,
@@ -50,9 +47,11 @@ const Collaborator = ({
     });
   };
 
-  const handleRemoveUserAccess = async () => {
+  const handleRemoveUserAccess = () => {
     startIsRemovingUserAccessTransition(async () => {
       await removeUserAccess(documentId, id);
+
+      toast.success("User access removed");
     });
   };
 

@@ -4,13 +4,21 @@ import { EditIcon } from "lucide-react";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
-import { updateDocument } from "@/features/home/core/actions";
+import { updateDocument } from "@/features/documents/core/actions";
+
+import { toast } from "@/lib/utils";
 
 const DocumentInput = ({ documentTitle }: { documentTitle: string }) => {
   const { documentId } = useParams();
   const [isEditing, setIsEditing] = useState(false);
   const [title, setTitle] = useState(documentTitle);
   const documentTitleInputRef = useRef<HTMLInputElement>(null);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+
+    documentTitleInputRef.current?.focus();
+  };
 
   const handleClickOutside = (e: MouseEvent) => {
     if (
@@ -27,7 +35,11 @@ const DocumentInput = ({ documentTitle }: { documentTitle: string }) => {
     if (title === documentTitle) return;
 
     const document = await updateDocument(documentId as string, title);
-    if (document) setIsEditing(false);
+    if (document) {
+      toast.success("Document updated");
+
+      setIsEditing(false);
+    }
   };
 
   useEffect(() => {
@@ -44,7 +56,7 @@ const DocumentInput = ({ documentTitle }: { documentTitle: string }) => {
           <span className="text-xl font-bold">{documentTitle}</span>
           <EditIcon
             className="size-5 cursor-pointer"
-            onClick={() => setIsEditing(true)}
+            onClick={handleEditClick}
           />
         </>
       )}

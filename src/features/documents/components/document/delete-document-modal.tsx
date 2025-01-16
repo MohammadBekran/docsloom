@@ -2,10 +2,10 @@
 
 import { TrashIcon } from "lucide-react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
-import { deleteDocument } from "@/features/home/core/actions";
+import { deleteDocument } from "@/features/documents/core/actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -16,17 +16,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { toast } from "@/lib/utils";
 
-const DeleteDocumentModal = () => {
-  const { documentId } = useParams();
+const DeleteDocumentModal = ({ documentId }: { documentId: string }) => {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
-  const handleDeleteDocument = async () => {
+  const handleDeleteDocument = () => {
     startTransition(async () => {
-      const deletedDocument = await deleteDocument(documentId as string);
+      const deletedDocument = await deleteDocument(documentId);
 
-      if (deletedDocument) router.push("/");
+      if (deletedDocument) {
+        toast.success("Document deleted");
+
+        router.push("/");
+      }
     });
   };
 

@@ -6,7 +6,7 @@ import { useSelf } from "@liveblocks/react/suspense";
 
 import UserAccessSelector from "@/features/documents/components/document/user-access-selector";
 import type { TUser } from "@/features/documents/core/types";
-import { updateUserAccess } from "@/features/home/core/actions";
+import { updateUserAccess } from "@/features/documents/core/actions";
 import Collaborator from "@/features/documents/components/document/collaborator";
 
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ const ShareDocumentModal = ({
 
   const handleUserAccess = (userType: string) => setUserAccess(userType);
 
-  const handleInviteUser = async () => {
+  const handleInviteUser = () => {
     startTransition(async () => {
       const updatedDocument = await updateUserAccess(
         documentId,

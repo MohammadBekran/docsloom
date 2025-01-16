@@ -47,6 +47,7 @@ import {
   UnderlineIcon,
   Undo2Icon,
 } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 
 import DeleteDocumentModal from "@/features/documents/components/document/delete-document-modal";
@@ -122,6 +123,7 @@ const useActiveBlock = () => {
 };
 
 const Toolbar = ({ userAccessType }: { userAccessType: string }) => {
+  const { documentId } = useParams();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
@@ -310,7 +312,9 @@ const Toolbar = ({ userAccessType }: { userAccessType: string }) => {
             }
           />
         </div>
-        {userAccessType === "editor" && <DeleteDocumentModal />}
+        {userAccessType === "editor" && (
+          <DeleteDocumentModal documentId={documentId as string} />
+        )}
       </div>
       <ScrollBar orientation="horizontal" />
     </ScrollArea>

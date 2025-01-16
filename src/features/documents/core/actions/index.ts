@@ -1,14 +1,53 @@
 "use server";
 
-import { liveblocks } from "@/lib/liveblocks";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { RoomData } from "@liveblocks/node";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { TUser } from "@/features/documents/core/types";
 
+import { liveblocks } from "@/lib/liveblocks";
 import { parseStringify } from "@/lib/utils";
+
+export const getDocuments = async (): Promise<
+  | {
+      nextPage: string | null;
+      nextCursor: string | null;
+      data: RoomData[];
+    }
+  | undefined
+> => {
+  try {
+    const user = await currentUser();
+    if (!user) throw new Error("Unauthorized");
+
+    const documents = await liveblocks.getRooms({
+      userId: user.emailAddresses[0].emailAddress,
+    });
+
+    return parseStringify(documents);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getDocument = async (roomId: string) => {
+  try {
+    const user = await currentUser();
+    const room = await liveblocks.getRoom(roomId);
+
+    const hasUserAccess =
+      room.usersAccesses[user?.emailAddresses[0].emailAddress ?? ""];
+
+    if (!hasUserAccess) redirect("/");
+
+    return room;
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 export const getDocumentUsers = async (roomId: string, text: string) => {
   try {
@@ -28,22 +67,6 @@ export const getDocumentUsers = async (roomId: string, text: string) => {
     }
 
     return parseStringify(users);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getDocument = async (roomId: string) => {
-  try {
-    const user = await currentUser();
-    const room = await liveblocks.getRoom(roomId);
-
-    const hasUserAccess =
-      room.usersAccesses[user?.emailAddresses[0].emailAddress ?? ""];
-
-    if (!hasUserAccess) redirect("/");
-
-    return room;
   } catch (error) {
     console.error(error);
   }

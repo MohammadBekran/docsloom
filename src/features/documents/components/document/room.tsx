@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  LiveblocksProvider,
-  RoomProvider,
-  ClientSideSuspense,
-} from "@liveblocks/react/suspense";
-
-import { getDocumentUsers, getUsers } from "@/features/home/core/actions";
+import { ClientSideSuspense, RoomProvider } from "@liveblocks/react/suspense";
 
 import Loader from "@/components/loader";
 
@@ -17,25 +11,9 @@ interface IRoomProps {
 
 const Room = ({ roomId, children }: IRoomProps) => {
   return (
-    <LiveblocksProvider
-      authEndpoint="/api/liveblocks-auth"
-      resolveUsers={async ({ userIds }) => {
-        const documentUsers = await getUsers(userIds);
-
-        return documentUsers;
-      }}
-      resolveMentionSuggestions={async ({ roomId, text }) => {
-        const users = await getDocumentUsers(roomId, text);
-
-        return users ?? [];
-      }}
-    >
-      <RoomProvider id={roomId}>
-        <ClientSideSuspense fallback={<Loader />}>
-          {children}
-        </ClientSideSuspense>
-      </RoomProvider>
-    </LiveblocksProvider>
+    <RoomProvider id={roomId}>
+      <ClientSideSuspense fallback={<Loader />}>{children}</ClientSideSuspense>
+    </RoomProvider>
   );
 };
 

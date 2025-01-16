@@ -45,7 +45,7 @@ const Editor = ({
       <Toolbar userAccessType={userAccessType} />
       <Separator className="bg-dark-300" />
       <div className="flex justify-center mt-10 text-white">
-        <div className="flex flex-col justify-between gap-8 pb-4 lg:flex-row">
+        <div className="w-full flex flex-col justify-between gap-8 px-5 pb-4 xl:w-auto xl:flex-row xl:px-0">
           <RichTextPlugin
             contentEditable={
               <div className="flex justify-center">

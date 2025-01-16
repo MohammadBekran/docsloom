@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import ClerkProvider from "@/components/providers/clerk-provider";
+import ClerkProvider from "@/components/partials/providers/clerk-provider";
+import LiveblocksProvider from "@/components/partials/providers/liveblocks-provider";
 import Toaster from "@/components/toaster";
 import { cn } from "@/lib/utils";
 
-import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-lexical/styles.css";
-// import "@liveblocks/react-ui/styles/dark/media-query.css";
+import "@liveblocks/react-ui/styles.css";
 import "@liveblocks/react-ui/styles/dark/attributes.css";
 import "./globals.css";
 
@@ -33,7 +33,7 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={cn("antialiased", inter.className)}>
-          {children}
+          <LiveblocksProvider>{children}</LiveblocksProvider>
           <Toaster />
         </body>
       </html>

@@ -12,12 +12,20 @@ body {
     @apply !bg-[#09111f] overflow-x-hidden;
   }
 
-  .editor-textStrikethrough {
-    text-decoration: line-through !important;
+  ::-webkit-scrollbar {
+    @apply size-1 rounded-[50px];
   }
 
-  .editor-textUnderline {
-    @apply !underline;
+  ::-webkit-scrollbar-track {
+    @apply bg-[#09090a];
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-[50px] bg-dark-500;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#7878a3];
   }
 
   :root {
@@ -91,10 +99,23 @@ body {
 
 @layer utilities {
   .share-select-item {
-    @apply cursor-pointer bg-dark-200 text-blue-100 hover:bg-dark-300 focus-visible:bg-dark-300 focus:text-blue-100 !important;
+    @apply cursor-pointer bg-dark-200 text-blue-100 hover:bg-dark-300 focus:bg-dark-300 focus:text-blue-100 !important;
   }
 }
 
+.editor-textStrikethrough {
+  text-decoration: line-through !important;
+}
+
+.editor-textUnderline {
+  @apply !underline;
+}
+
+div[data-radix-popper-content-wrapper] {
+  @apply z-[100];
+}
+
+/* Liveblocks */
 .lb-root {
   --lb-accent-subtle: #0b1527;
   --lb-radius: 0px;

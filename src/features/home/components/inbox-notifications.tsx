@@ -38,9 +38,7 @@ const InboxNotificationsDropdown = () => {
         >
           <BellIcon className="size-5" />
           {inboxNotifications.length > 0 && (
-            <span className="absolute -top-1 -left-1 size-5 rounded-full text-sm text-center bg-dark-300 text-muted-foreground">
-              {inboxNotifications.length}
-            </span>
+            <div className="absolute -top-1 -right-1 size-2 rounded-full bg-blue-500" />
           )}
         </Button>
       </DropdownMenuTrigger>

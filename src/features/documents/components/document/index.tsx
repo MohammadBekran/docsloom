@@ -5,7 +5,6 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 import Editor from "@/features/documents/components/document/editor";
-import Navbar from "@/features/documents/components/document/navbar";
 import Room from "@/features/documents/components/document/room";
 import { getDocument, getUsers } from "@/features/documents/core/actions";
 import type { TUser } from "@/features/documents/core/types";
@@ -41,14 +40,13 @@ const Document = async ({ documentId }: { documentId: string }) => {
 
   return (
     <Room documentId={documentId}>
-      <Navbar
+      <Editor
         documentId={documentId}
         documentTitle={document.metadata.title as string}
         userAccessType={userAccessType}
         documentUsers={documentUsers}
         creatorId={document.metadata.creatorId as string}
       />
-      <Editor userAccessType={userAccessType} />
     </Room>
   );
 };

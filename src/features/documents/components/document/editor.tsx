@@ -18,12 +18,24 @@ import Threads from "@/features/documents/components/document/threads";
 import FloatingToolbar from "@/features/documents/components/document/floating-toolbar";
 import Comments from "@/features/documents/components/document/comments";
 import LEXICAL_THEME from "@/features/documents/core/configs";
+import type { TUser } from "@/features/documents/core/types";
+import Navbar from "./navbar";
+
+interface IEditorProps {
+  documentId: string;
+  documentTitle: string;
+  userAccessType: "viewer" | "editor";
+  documentUsers: TUser[];
+  creatorId: string;
+}
 
 const Editor = ({
   userAccessType,
-}: {
-  userAccessType: "viewer" | "editor";
-}) => {
+  documentId,
+  documentTitle,
+  documentUsers,
+  creatorId,
+}: IEditorProps) => {
   const { threads } = useThreads();
 
   const initialConfig = liveblocksConfig({
@@ -40,8 +52,17 @@ const Editor = ({
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <Toolbar userAccessType={userAccessType} />
-      <div className="flex justify-center mt-10 text-white">
+      <div className="fixed top-0 left-0 z-50 w-full bg-dark-200">
+        <Navbar
+          documentId={documentId}
+          documentTitle={documentTitle}
+          userAccessType={userAccessType}
+          documentUsers={documentUsers}
+          creatorId={creatorId}
+        />
+        <Toolbar userAccessType={userAccessType} />
+      </div>
+      <div className="flex justify-center mt-10 text-white pt-[142px]">
         <div className="w-full flex flex-col justify-between gap-8 px-5 pb-4 xl:w-auto xl:flex-row xl:px-0">
           <RichTextPlugin
             contentEditable={

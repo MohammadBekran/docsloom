@@ -5,13 +5,13 @@ import { ClientSideSuspense, RoomProvider } from "@liveblocks/react/suspense";
 import Loader from "@/components/loader";
 
 interface IRoomProps {
-  roomId: string;
+  documentId: string;
   children: React.ReactNode;
 }
 
-const Room = ({ roomId, children }: IRoomProps) => {
+const Room = ({ documentId, children }: IRoomProps) => {
   return (
-    <RoomProvider id={roomId}>
+    <RoomProvider id={documentId}>
       <ClientSideSuspense fallback={<Loader />}>{children}</ClientSideSuspense>
     </RoomProvider>
   );

@@ -33,10 +33,10 @@ export const getDocuments = async (): Promise<
   }
 };
 
-export const getDocument = async (roomId: string) => {
+export const getDocument = async (documentId: string) => {
   try {
     const user = await currentUser();
-    const room = await liveblocks.getRoom(roomId);
+    const room = await liveblocks.getRoom(documentId);
 
     const hasUserAccess =
       room.usersAccesses[user?.emailAddresses[0].emailAddress ?? ""];
@@ -49,13 +49,13 @@ export const getDocument = async (roomId: string) => {
   }
 };
 
-export const getDocumentUsers = async (roomId: string, text: string) => {
+export const getDocumentUsers = async (documentId: string, text: string) => {
   try {
     const user = await currentUser();
 
     if (!user) redirect("/sign-in");
 
-    const document = await liveblocks.getRoom(roomId);
+    const document = await liveblocks.getRoom(documentId);
     if (!document) throw new Error("Document not found");
 
     const users = Object.keys(document.usersAccesses).filter(

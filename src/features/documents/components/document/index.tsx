@@ -40,7 +40,7 @@ const Document = async ({ documentId }: { documentId: string }) => {
   });
 
   return (
-    <Room roomId={documentId}>
+    <Room documentId={documentId}>
       <Navbar
         documentId={documentId}
         documentTitle={document.metadata.title as string}

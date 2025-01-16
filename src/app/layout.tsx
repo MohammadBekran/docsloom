@@ -2,8 +2,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import ClerkProvider from "@/components/providers/clerk-provider";
+import Toaster from "@/components/toaster";
 import { cn } from "@/lib/utils";
 
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-lexical/styles.css";
+// import "@liveblocks/react-ui/styles/dark/media-query.css";
+import "@liveblocks/react-ui/styles/dark/attributes.css";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,7 +32,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={cn("antialiased", inter.className)}>{children}</body>
+        <body className={cn("antialiased", inter.className)}>
+          {children}
+          <Toaster />
+        </body>
       </html>
     </ClerkProvider>
   );

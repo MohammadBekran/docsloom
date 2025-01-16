@@ -7,7 +7,22 @@ body {
 }
 
 @layer base {
+  html,
+  body {
+    @apply !bg-[#09111f] overflow-x-hidden;
+  }
+
+  .editor-textStrikethrough {
+    text-decoration: line-through !important;
+  }
+
+  .editor-textUnderline {
+    @apply !underline;
+  }
+
   :root {
+    @apply !bg-[#09111f] text-white;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -60,13 +75,81 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  h1 {
+    @apply text-3xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-xl;
+  }
+  h4 {
+    @apply text-base;
+  }
 }
 
-@layer base {
-  * {
-    @apply border-border;
+@layer utilities {
+  .share-select-item {
+    @apply cursor-pointer bg-dark-200 text-blue-100 hover:bg-dark-300 focus-visible:bg-dark-300 focus:text-blue-100 !important;
   }
-  body {
-    @apply bg-background text-foreground;
+}
+
+.lb-root {
+  --lb-accent-subtle: #0b1527;
+  --lb-radius: 0px;
+  --lb-dynamic-background: #1b2840;
+  --lb-foreground: #fff;
+}
+
+.lb-comment,
+.lb-composer-editor,
+.lb-comment-reaction,
+.lb-composer-footer {
+  @apply bg-dark-300 text-white;
+}
+
+/* For mobile */
+.floating-threads {
+  display: none;
+}
+
+/* For desktop */
+.anchored-threads {
+  display: none;
+  max-width: 300px;
+  width: 100%;
+  position: absolute;
+  right: 4px;
+}
+
+@media (max-width: 640px) {
+  .floating-threads {
+    display: none;
   }
+
+  .anchored-threads {
+    display: none;
+  }
+}
+
+.placeholder {
+  position: absolute;
+  left: 12px;
+  top: 16px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* Clerk */
+.cl-cardBox,
+.cl-card,
+.cl-footer,
+.cl-footer,
+.cl-internal-w4f4gh {
+  @apply !bg-[#060d18] bg-gradient-to-t;
+}
+
+.lb-comment-content {
+  @apply bg-dark-200 rounded-[4px] text-[14px] p-3 mt-4;
 }

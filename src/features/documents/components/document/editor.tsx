@@ -52,7 +52,7 @@ const Editor = ({
 
   return (
     <LexicalComposer initialConfig={initialConfig}>
-      <div className="fixed top-0 left-0 z-50 w-full bg-dark-200">
+      <div className="fixed top-0 left-0 z-50 w-full bg-dark-100">
         <Navbar
           documentId={documentId}
           documentTitle={documentTitle}

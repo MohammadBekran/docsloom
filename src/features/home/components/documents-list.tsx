@@ -12,8 +12,6 @@ const DocumentsList = async () => {
   return (
     <ul className="w-full flex flex-col gap-y-5 mt-10">
       {(documents?.data.length ?? 0) > 0 ? (
-        <p className="text-lg text-center text-muted">No documents found</p>
-      ) : (
         documents?.data.map(({ id, createdAt, metadata: { title } }) => {
           const formattedDate = dateFormatter(createdAt.toString());
 
@@ -49,6 +47,8 @@ const DocumentsList = async () => {
             </li>
           );
         })
+      ) : (
+        <p className="text-lg text-center text-muted">No documents found</p>
       )}
     </ul>
   );
